@@ -43,19 +43,22 @@ li2 a {
 
 
 </style>
+
+<meta charset="utf-8">
+<link href="/d3-geomap/d3-geomap.css" rel="stylesheet">
+
 </head>
+  
+<body>
+        <div class="d3-geomap" id="map"></div>
+    </body>
+    <script src="//unpkg.com/d3@5/dist/d3.min.js"></script>
+    <script src="//unpkg.com/topojson@3/dist/topojson.min.js"></script>
+    <script src="/d3-geomap/d3-geomap.min.js">
 
-<canvas width="960" height="600"></canvas>
-<script src="https://d3js.org/d3.v4.min.js"></script>
-<script src="https://unpkg.com/topojson-client@3"></script>
-<script>
-
-var context = d3.select("canvas").node().getContext("2d"),
-    path = d3.geoPath().context(context);
-
-d3.json("world.topojson", function(error, wrld) {
-  if (error) throw error;
-});
+var map = d3.geomap()
+    .geofile('/d3-geomap/topojson/world/countries.json')
+    .draw(d3.select('#map'));
 
 </script>
 
