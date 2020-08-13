@@ -45,8 +45,22 @@ li2 a {
 </style>
 </head>
 
- <script src="myscripts.js"></script>
+<canvas width="960" height="600"></canvas>
+<script src="https://d3js.org/d3.v4.min.js"></script>
+<script src="https://unpkg.com/topojson-client@3"></script>
+<script>
 
-###JAVASCRIPT SYNTAX
+var context = d3.select("canvas").node().getContext("2d"),
+    path = d3.geoPath().context(context);
+
+d3.json("https://d3js.org/us-10m.v1.json", function(error, us) {
+  if (error) throw error;
+
+  context.beginPath();
+  path(topojson.mesh(us));
+  context.stroke();
+});
+
+</script>
 
 </html>
