@@ -55,10 +55,6 @@ var context = d3.select("canvas").node().getContext("2d"),
 
 d3.json("world.topojson", function(error, wrld) {
   if (error) throw error;
-
-  context.beginPath();
-  path(topojson.mesh(wrld));
-  context.stroke();
 });
 
 </script>
