@@ -50,7 +50,17 @@
 
           var color = ['#e41a1c', '#377eb8', '#4daf4a', '#984ea3', '#ff7f00', '#ffff33', '#a65628', '#f781bf', '#999999'];
           var heat_color = d3.scale.linear().domain([0, 1]).range(['#b2df8a', '#ff7f00']).interpolate(d3.interpolateHcl);
+          var marks = [{long: -75, lat: 43},{long: -78, lat: 41},{long: -70, lat: 53}];
 
+          svg.selectAll(".mark")
+              .data(marks)
+              .enter()
+              .append("image")
+              .attr('class','mark')
+              .attr('width', 20)
+              .attr('height', 20)
+              .attr("xlink:href",'https://cdn3.iconfinder.com/data/icons/softwaredemo/PNG/24x24/DrawingPin1_Blue.png')
+              .attr("transform", d => `translate(${projection([d.long,d.lat])}`);
           var overlayProjection = this.getProjection();
 
           // Turn the overlay projection into a d3 projection
