@@ -30,18 +30,7 @@
         }]
       }]
     });
-    var marks = [{long: -75, lat: 43},{long: -78, lat: 41},{long: -70, lat: 53}];
-
-          svg.selectAll(".mark")
-              .data(marks)
-              .enter()
-              .append("image")
-              .attr('class','mark')
-              .attr('width', 20)
-              .attr('height', 20)
-              .attr("xlink:href",'docs/iconfinder_slice87_2831421.png')
-              .attr("transform", d => `translate(${projection([d.long,d.lat])}`);
-
+   
     d3.json("https://jsonblob.com/api/1e7c9245-e4b6-11e6-90ab-914a66f2a924", function(error, data) {
       if (error) throw error
 
@@ -94,7 +83,7 @@
               return color[i % color.length];
             })
             .style('opacity', .7);
-          
+                     
         }
       }
       overlay.setMap(map);
