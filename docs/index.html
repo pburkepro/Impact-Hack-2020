@@ -30,7 +30,24 @@
         }]
       }]
     });
-   
+    
+    var myMap;
+    function initMap() {
+      myMap = new google.maps.Map(document.getElementById('map'), {
+        center: {lat: -34.397, lng: 150.644},
+        zoom: 8
+  });
+
+      var myLatLng = new google.maps.LatLng(-34.397, 150.644);
+
+      var myMarkerOptions = {
+        position: myLatLng,
+        map: myMap
+  }
+
+      var myMarker = new google.maps.Marker(myMarkerOptions);
+}
+
     d3.json("https://jsonblob.com/api/1e7c9245-e4b6-11e6-90ab-914a66f2a924", function(error, data) {
       if (error) throw error
 
@@ -52,7 +69,7 @@
           var heat_color = d3.scale.linear().domain([0, 1]).range(['#b2df8a', '#ff7f00']).interpolate(d3.interpolateHcl);
           
           var overlayProjection = this.getProjection();
-
+          
           // Turn the overlay projection into a d3 projection
           var googleMapProjection = function(coordinates) {
             var googleCoordinates = new google.maps.LatLng(coordinates[1], coordinates[0]);
@@ -90,38 +107,7 @@
 
     });
   </script>
-  
- // THIS IS THE MARKER SCRIPT SECTION    
- <script>
-   {
-  "type": "FeatureCollection",
-  "features": [
-    {
-      "type": "Feature",
-      "properties": {},
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          15.029296875,
-          12.039320557540572
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {},
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          8.61328125,
-          12.12526421833159
-        ]
-      }
-    }
-  ]
-}
-   
-  </script>
+
 </body>
 
 </html>
