@@ -30,23 +30,6 @@
         }]
       }]
     });
-    
-    var myMap;
-    function initMap() {
-      myMap = new google.maps.Map(document.getElementById('map'), {
-        center: {lat: -34.397, lng: 150.644},
-        zoom: 8
-  });
-
-      var myLatLng = new google.maps.LatLng(-34.397, 150.644);
-
-      var myMarkerOptions = {
-        position: myLatLng,
-        map: myMap
-  }
-
-      var myMarker = new google.maps.Marker(myMarkerOptions);
-}
 
     d3.json("https://jsonblob.com/api/1e7c9245-e4b6-11e6-90ab-914a66f2a924", function(error, data) {
       if (error) throw error
@@ -107,7 +90,49 @@
 
     });
   </script>
-
+  
+ // THIS IS THE MARKER SCRIPT SECTION    
+ <script>
+   var marks = [{long: 15.029296875, lat: 12.039320557540572}, {long: -75, lat: 43}];
+   svg.selectAll(".mark")
+       .data(marks)
+       .enter()
+       .append("svg:image")
+       .attr("class", "mark")
+       .attr("width", 20)
+       .attr("height", 20)
+       .attr("xlink:href", )
+       .attr("transform", d => 
+   
+   {
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {},
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          15.029296875,
+          12.039320557540572
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {},
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.61328125,
+          12.12526421833159
+        ]
+      }
+    }
+  ]
+}
+   
+  </script>
 </body>
 
 </html>
