@@ -1,3 +1,4 @@
+
 (function (root, factory) {
   if (typeof define === 'function' && define.amd) {
     // AMD. Register as an anonymous module.
@@ -5,7 +6,7 @@
   } else if (typeof exports === 'object') {
     if (process.browser) {
       // Browserify. Import css too using cssify.
-      require('test.css');
+      require('./test.css');
     }
     // Node. Does not work with strict CommonJS, but
     // only CommonJS-like environments that support module.exports,
