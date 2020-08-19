@@ -6,7 +6,7 @@
   } else if (typeof exports === 'object') {
     if (process.browser) {
       // Browserify. Import css too using cssify.
-      require('./test.slider.css');
+      require('docs/test.slider.css');
     }
     // Node. Does not work with strict CommonJS, but
     // only CommonJS-like environments that support module.exports,
