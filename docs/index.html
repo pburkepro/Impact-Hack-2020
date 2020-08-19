@@ -1,86 +1,67 @@
 <!DOCTYPE html>
+<html lang="en">
 <head>
-<title>D3 Mapping Timeline</title>
-<meta charset="utf-8">
-<link rel="stylesheet" href="d3.slider.css" />
+    <meta charset="utf-8">
+    <title>D3 Mapping Timeline</title>
+    <link rel="stylesheet" href="test.css" />
+    <script charset="utf-8" type="text/javascript" src="http://d3js.org/d3.v3.min.js"></script>
 <style>
-
-path {
-  fill: none;
-  stroke: #333;
-  stroke-width: .5px;
-}
-
-.land-boundary {
-  stroke-width: 1px;
-}
-
-.county-boundary {
-  stroke: #ddd;
-}
-
-.site {
-  opacity: 0.3;
-  fill: #9cf;
-}
-
-#slider3 {
-  margin: 20px 0 10px 20px;
-  width: 900px;
-}
-
-svg {
-  background: #eee;
-}
-  
-.sphere {
-	fill: rgb(92,136,255)
-}
- 
- .land {
-   fill: rgb(255,239,204)
-}
- 
- .incident{
-   fill:#07f5e7;
-   opacity: 0.5;
-} 
-  
- .boundary {
-   fill: none
-   stroke: rgb(224,91l,49)
-   stroke-linejoin: round;
-   stroke-linecap: round;
-   vector-effect: non-scaling-stroke;
-}
-  .state {
-    fill: #000;
-}
-  .city{
-    fill: #de1ae8;
-}
-  .overlay {
-    fill: none;
-    pointer-events: all;
-}
-  
-
-
-
-.
+    path {
+        fill: none;
+        stroke: #333;
+        stroke-width: .5px;
+    }
+    .land-boundary {
+        stroke-width: 1px;
+    }
+    .county-boundary {
+        stroke: #ddd;
+    }
+    .site {
+        opacity: 0.3;
+        fill: #9cf;
+    }
+    #slider3 {
+        margin: 20px 0 10px 20px;
+        width: 900px;
+    }
+    svg {
+        background: #eee;
+    }
+    .sphere {
+        fill: rgb(92,136,255)
+    }
+    .land {
+        fill: rgb(255,239,204)
+    }
+    .incident{
+        fill:#07f5e7;
+        opacity: 0.5;
+    }
+    .boundary {
+        fill: none;
+        stroke: rgb(224,91l,49);
+        stroke-linejoin: round;
+        stroke-linecap: round;
+        vector-effect: non-scaling-stroke;
+    }
+    .state {
+        fill: #000;
+    }
+    .city {
+        fill: #de1ae8;
+    }
+    .overlay {
+        fill: none;
+        pointer-events: all;
+    }
 </style>
 <script src="https://d3js.org/d3.v3.min.js"></script>
 <script src="https://d3js.org/topojson.v1.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.3/moment.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
 <script src="test.js"></script>
 </head>
-
-
 <body>
-
 <div id="slider3"></div>
-
 
 <script>
 
@@ -89,7 +70,7 @@ var width = 960,
 
 var mapPath = "world.topojson";
 
-var projection = d3.geo.albersUsa()
+var projection = d3.geo.mercator()
     .scale(1280)
     .translate([width / 2, height / 2]);
 
@@ -113,23 +94,23 @@ svg.call(zoom)
 d3.json(mapPath, function(error, us) {
   if (error) return console.error(error);
 
-  svg.append("path")
-      .datum(topojson.feature(us, us.objects.land))
-      .attr("d", path)
-      .attr("class", "land-boundary");
+ g.append("path")
+      .datum({type: "Sphere"})
+      .attr("class", "sphere")
+      .attr("d", path);
 
-  svg.append("path")
-      .datum(topojson.mesh(us, us.objects.counties, function(a, b) { return a !== b && (a.id / 1000 | 0) === (b.id / 1000 | 0); }))
-      .attr("d", path)
-      .attr("class", "county-boundary");
+  g.append("path")
+      .datum(topojson.merge(world, world.objects.counties.geometries))
+      .attr("class", "land")
+      .attr("d", path);
 
-  svg.append("path")
-      .datum(topojson.mesh(us, us.objects.states, function(a, b) { return a !== b; }))
-      .attr("d", path)
-      .attr("class", "state-boundary");
+  g.append("path")
+      .datum(topojson.mesh(world, world.objects.countries, function(a, b) { return a !== b; }))
+      .attr("class", "boundary")
+      .attr("d", path);
 
 
-  d3.tsv("rest_777.txt")
+  d3.tsv("test.txt")
     .row(function(d) {
       return {
         permalink: d.permalink,
