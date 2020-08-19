@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <title>D3 Mapping Timeline</title>
-    <link rel="stylesheet" href="test.slider.css" />
+    <link href="docs/test.slider.css" /> rel="stylesheet"
     <script charset="utf-8" type="text/javascript" src="http://d3js.org/d3.v3.min.js"></script>
 <style>
     path {
@@ -58,7 +58,7 @@
 </style>
 <script src="https://d3js.org/d3.v3.min.js"></script>
 <script src="https://d3js.org/topojson.v1.min.js"></script>
-<script src="test.slider.js"></script>
+<script src="docs/test.slider.js"></script>
 </head>
 <body>
 <div id="slider3"></div>
@@ -68,7 +68,7 @@
 var width = 960,
     height = 600;
 
-var mapPath = "world.topojson";
+var mapPath = "docs/world.topojson";
 
 var projection = d3.geo.mercator()
     .scale(1280)
