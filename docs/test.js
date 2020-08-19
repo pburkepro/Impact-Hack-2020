@@ -5,7 +5,7 @@
   } else if (typeof exports === 'object') {
     if (process.browser) {
       // Browserify. Import css too using cssify.
-      require('./d3.slider.css');
+      require('test.css');
     }
     // Node. Does not work with strict CommonJS, but
     // only CommonJS-like environments that support module.exports,
