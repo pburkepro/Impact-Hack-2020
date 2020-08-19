@@ -6,7 +6,7 @@
   } else if (typeof exports === 'object') {
     if (process.browser) {
       // Browserify. Import css too using cssify.
-      require('./test.css');
+      require('./test.slider.css');
     }
     // Node. Does not work with strict CommonJS, but
     // only CommonJS-like environments that support module.exports,
@@ -14,7 +14,7 @@
     module.exports = factory(require('d3'));
   } else {
     // Browser globals (root is window)
-    root.d3.slider = factory(root.d3);
+    root.test.slider = factory(root.d3);
   }
 }(this, function (d3) {
 return function module() {
