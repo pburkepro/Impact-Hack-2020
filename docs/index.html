@@ -33,7 +33,7 @@ var g = svg.append("g");
 d3.json("world-110m2.json", function(error, topology) {
 
 // load and display the cities
-d3.csv("docs/cities.csvs.csv", function(error, data) {
+d3.csv("docs/cities.csv", function(error, data) {
     g.selectAll("circle")
        .data(data)
        .enter()
