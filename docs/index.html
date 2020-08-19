@@ -20,8 +20,7 @@ path {
 }
 
 .site {
-	stroke-width: .5px;
-  stroke: #333;
+  opacity: 0.3;
   fill: #9cf;
 }
 
@@ -30,6 +29,45 @@ path {
   width: 900px;
 }
 
+svg {
+  background: #eee;
+}
+  
+.sphere {
+	fill: rgb(92,136,255)
+}
+ 
+ .land {
+   fill: rgb(255,239,204)
+}
+ 
+ .incident{
+   fill:#07f5e7;
+   opacity: 0.5;
+} 
+  
+ .boundary {
+   fill: none
+   stroke: rgb(224,91l,49)
+   stroke-linejoin: round;
+   stroke-linecap: round;
+   vector-effect: non-scaling-stroke;
+}
+  .state {
+    fill: #000;
+}
+  .city{
+    fill: #de1ae8;
+}
+  .overlay {
+    fill: none;
+    pointer-events: all;
+}
+  
+
+
+
+.
 </style>
 <script src="https://d3js.org/d3.v3.min.js"></script>
 <script src="https://d3js.org/topojson.v1.min.js"></script>
@@ -49,18 +87,28 @@ path {
 var width = 960,
     height = 600;
 
-var mapPath = "/cmdoptesc/raw/4714c586f69425043ae3/us.json";
+var mapPath = "world.topojson";
 
 var projection = d3.geo.albersUsa()
     .scale(1280)
     .translate([width / 2, height / 2]);
 
+var zoom = d3.behavior.zoom()
+.scaleExtent([3,77])
+.on("zoom", zoomed);
+	
 var path = d3.geo.path()
     .projection(projection);
 
 var svg = d3.select("body").append("svg")
     .attr("width", width)
-    .attr("height", height);
+    .attr("height", height)
+    .append("g");
+var g = svg.append("g");
+var sites = svg.append("g");
+
+svg.call(zoom)
+	.call(zoom.event);
 
 d3.json(mapPath, function(error, us) {
   if (error) return console.error(error);
