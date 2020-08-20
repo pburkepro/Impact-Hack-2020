@@ -1,7 +1,7 @@
 
 <!DOCTYPE html>
 	<meta charset="utf-8">
-	<title> Map Testingg<title>
+	<title> Map Testingg <title>
 <style>
 background{
 	fill: none;
@@ -69,10 +69,10 @@ d3.csv("docs/cities.csv", function(error, data){
 });
 
 
-g.selectAll("path")
+g.selectAll("circle")
       .data(topojson.object(topology, topology.objects.countries)
-          .geometries)
-    .enter()
+      .geometries()
+      .enter()
       .append("path")
       .attr("d", path)
 });
