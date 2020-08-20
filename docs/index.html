@@ -30,7 +30,7 @@ var path = d3.geo.path()
 var g = svg.append("g");
 
 // load and display the World
-d3.json("./world-50m.json", function(error, world) {
+d3.json("docs/worldtest.json", function(error, world) {
 if (error) throw (error);
 
 var countries = topojson.feature(world, world.objects.countries).features,
