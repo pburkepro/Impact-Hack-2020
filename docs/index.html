@@ -30,7 +30,11 @@ var path = d3.geo.path()
 var g = svg.append("g");
 
 // load and display the World
-d3.json("docs/world.topojson", function(error, topology) {
+d3.json("./world-50m.json", function(error, world) {
+if (error) throw (error);
+
+var countries = topojson.feature(world, world.objects.countries).features,
+    neighbors = topojson.neighbors(world.objects.countries.geometries);
 
 // load and display the cities
 d3.csv("docs/cities.csv", function(error, data) {
@@ -78,6 +82,7 @@ svg.call(zoom)
 </script>
 </body>
 </html>
+
 <!--<!DOCTYPE html>
 <html lang="en">
 <head>
