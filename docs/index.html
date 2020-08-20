@@ -3,41 +3,46 @@
 	<meta charset="utf-8">
 	<title> Map Testingg <title>
 <style>
-background{
-	fill: none;
-	}
+.background{
+	fill:none;
+}
 </style>
 <body>
 <script type="text/javascript" src="docs/d3.v3.js"></script>
 <script src="https://d3js.org/topojson.v1.min.js"></script>
 <script type="text/javascript">
 
-var width = 960,
-    height = 500;
+var width = 700;
+    height = 600;
+    activeWidth = width * 0.7; 
+    activeHeight = height * 0.8;
+    active = d3.select(null);
+
+var svg = d3.select("body").append("svg").attr("width", width).attr("height", height);
 
 var projection = d3.geo.mercator()
     .center([0, 5 ])
     .scale(200)
     .rotate([-180,0]);
+
+var path = d3.geo.path()
+	.projection(projection);
+
 var tip = d3.tip()
     .attr("class", "d3-tip")
     .offset([0,0])
     .html(function(d)) {
           return "<strong>Frequency:</strong> <span style='color:white'>" + d.count + </span>" = "<br/>" + d.country;
 
-var svg = d3.select("body").append("svg")
-    .attr("width", width)
-    .attr("height", height);
 
-var path = d3.geo.path()
-    .projection(projection);
+	  
 
 var g = svg.append("g");
 
 // load and display the World
 d3.json("docs/world.topojson", function(error, topology){
   svg.call(tip)
-if (error) throw (error);
+if (error) return console.error(error);
 
 // load and display the cities
 d3.csv("docs/cities.csv", function(error, data){
