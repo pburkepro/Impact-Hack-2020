@@ -2,7 +2,10 @@
 <!DOCTYPE html>
 	<meta charset="utf-8">
 	<title> Map Testingg<title>
-	
+<style>
+background{
+	fill: none;
+	}
 </style>
 <body>
 <script type="text/javascript" src="docs/d3.v3.js"></script>
@@ -48,7 +51,7 @@ d3.csv("docs/cities.csv", function(error, data){
        .data(data)
        .enter()
        .append("circle")
-	     .on("mouseover", tip.show)
+       .on("mouseover", tip.show)
        .on("mouseout", tip.hide)
        .attr("cx", function(d) {
                return projection([d.lon, d.lat])[0];
