@@ -7,10 +7,21 @@
 }
 </style>
 <body>
+<script>
 <script type="text/javascript" src="https://d3js.org/d3.v4.js"></script>
-<script src="docs/newtopojson.json"></script>
-<script type="text/javascript">
+<script src="https://d3js.org/d3-color.v1.min.js"></script>
+<script src="https://d3js.org/d3-dispatch.v1.min.js"></script>
+<script src="https://d3js.org/d3-ease.v1.min.js"></script>
+<script src="https://d3js.org/d3-interpolate.v1.min.js"></script>
+<script src="https://d3js.org/d3-selection.v1.min.js"></script>
+<script src="https://d3js.org/d3-timer.v1.min.js"></script>
+<script src="https://d3js.org/d3-transition.v1.min.js"></script>
+<script src="https://d3js.org/d3-drag.v1.min.js"></script>
+<script src="https://d3js.org/d3-zoom.v1.min.js"></script>
+<script>
 
+var topology = topojson.topology({foo: geojson});
+var zoom = d3.zoom();
 var width = 700;
     height = 600;
     activeWidth = width * 0.7; 
@@ -66,11 +77,6 @@ g.selectAll("circle").data(topojson.object(topology, topology.objects.countries)
 });
 
 // zoom and pan
-var zoom = d3.behavior.zoom().on("zoom",function() {
-        g.attr("transform","translate("+ d3.event.translate.join(",")+")scale("+d3.event.scale+")");
-        g.selectAll("circle").attr("d", path.projection(projection));
-        g.selectAll("path").attr("d", path.projection(projection)); 
-});
 
 svg.call(zoom)
 
