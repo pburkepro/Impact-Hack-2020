@@ -1,5 +1,244 @@
-
 <!DOCTYPE html>
+    <meta charset="utf-8">
+    <title>Map Testing</title>
+<style>
+
+/* CSS goes here. */
+
+    .province{
+        fill:#ccc;
+    }
+
+    .province.active{
+        fill:#006699;
+    }
+
+    .province.uploaded{
+        fill:green;
+    }
+
+    .province.uploaded.active{
+        fill:#006699;
+    }
+
+    .background{
+        fill:none;
+    }
+
+    .infoBox{
+        position:absolute;
+        width:200;
+        height:200;
+        padding: 10px;
+        background-color: blue;
+        -webkit-border-radius: 10px;
+        -moz-border-radius: 10px;
+        border-radius: 10px;
+        -webkit-box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
+        -moz-box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
+        box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
+        pointer-events: none;
+    }
+
+    .infoBox.hidden{
+        display:none;
+    }
+
+    .infoBox.p{
+        font-size:16px;
+
+    }
+
+    .mesh{
+        fill:none;
+        stroke:#fff;
+        stroke-linecap:round;
+        stroke-linejoin:round;
+    }
+
+
+
+</style>
+<body>
+<script type="text/javascript" src="docs/d3.v3.js"></script>
+<script src="http://d3js.org/topojson.v1.min.js"></script>
+<script type="text/javascript">
+
+/* JavaScript goes here. */
+    
+    var width = 700; 
+        height = 600;
+        activeWidth = width * 0.7; 
+        activeHeight = height * 0.8;
+        active = d3.select(null);
+
+    var svg = d3.select("body").append("svg").attr("width", width).attr("height",height);
+
+    var path = d3.geo.path()
+            .projection(
+                d3.geo.mercator()
+                .center([-60, 40])
+                .scale(550)
+                .rotate([-180,0])
+
+            );
+
+    var g = svg.append("g")
+        .style("stroke-width", "1.5px");
+    
+
+    var infoRect = svg.append("rect")
+        .attr("width", width-activeWidth)
+        .attr("height", 0.8 * activeHeight)
+        .attr("x", 500)
+        .attr("y", 0)
+        .attr("fill", "#ccffcc")
+        .style("opacity", 0);
+
+    var infoBox = svg.selectAll("text")
+        .data("data")
+        .enter()
+        .append("text");
+
+    var textLabels = infoBox
+        .attr("x", (width - activeWidth)/2 + activeWidth)
+        .attr("y", 50)
+        .text("blahblahblahblahblah")
+        .attr("font-size", "30px")
+        .attr("fill", "#297249")
+        .attr("text-anchor", "middle")
+        .style("opacity", "0");
+
+
+    var slideshowBox = svg.append("rect")
+        .attr("width", width)
+        .attr("height", height - activeHeight)
+        .attr("x", 0)
+        .attr("y", activeHeight)
+        .attr("fill", "#ccffcc")
+        .style("opacity", 0)
+
+
+
+    d3.json("provinces.geojson", function(error, provinces) {
+        if (error) return console.error(error);
+
+
+
+        // var center = d3.geo.centroid(provinces);
+        //     scale = 400;
+        //     rotate = [-180,0];
+        //     offset = [width/2, height/2];
+
+        // var projection = d3.geo.mercator().scale(scale).center(center).rotate(rotate).translate(offset);
+        //     path = d3.geo.path().projection(projection);
+
+
+        // var bounds = path.bounds(provinces);
+        // var hscale = scale*width/bounds[1][0] - bounds[0][1];
+        // var vscale = scale*height/bounds[1][1] - bounds[0][1];
+        //     scale = (hscale < vscale) ? hscale : vscale;
+        //     offset  = [width - (bounds[0][0] + bounds[1][0])/2,
+        //                 height - (bounds[0][1] + bounds[1][1])/2];
+
+        // projection = d3.geo.mercator().scale(scale).center(center).rotate(rotate).translate(offset);
+        // path = path.projection(projection);
+
+        var uploaded = ["Shanxi", "Heilongjiang", "Shanghai", "Jiangsu", "Sichuan"];
+
+        g.append("rect")
+            .attr("width",width)
+            .attr("height", height)
+            .attr("class", "background")
+            .on("click", reset);
+
+        g.selectAll("path")
+            .data(provinces.features)
+            .enter()
+            .append("path")
+            .attr("class", function(d){
+                for (var i = 0; i < uploaded.length; i++){
+                    if (uploaded[i] == d.properties.NAME_1){
+                        return "province uploaded";
+                    }
+                }
+                return "province";
+            })
+            .attr("d", path)
+            .on("click", clicked)
+            .append("title")
+            .text(function(d){return d.properties.NL_NAME_1;});
+
+
+
+});
+
+    var clicked = function(d){
+        if (active.node() === this) return reset();
+        active.classed("active", false);
+        active = d3.select(this);
+        d3.select(this).classed("active", true);
+
+        infoBox
+            .datum(d)
+            .text(d.properties.NAME_1);
+
+        console.log(d.properties.NAME_1);
+
+        var bounds = path.bounds(d),
+            
+            dx = bounds[1][0] - bounds[0][0],
+            dy = bounds[1][1] - bounds[0][1],
+            x = ((bounds[0][0] + bounds[1][0]) / 2),
+            y = (bounds[0][1] + bounds[1][1]) / 2,
+            scale = .9/ Math.max(dx / activeWidth, dy / activeHeight),
+            translate = [activeWidth / 2 - scale * x, activeHeight / 2 - scale * y];
+
+
+        g.transition()
+          .duration(750)
+          .style("stroke-width", 1.5 / scale + "px")
+          .attr("transform", "translate(" + translate + ")scale(" + scale + ")");
+
+        infoBox.transition()
+            .duration(1250)
+            .style("opacity", "100");
+
+        infoRect.transition()
+            .duration(1250)
+            .style("opacity", "10");
+
+        slideshowBox.transition()
+            .duration(1250)
+            .style("opacity", "10");
+    }
+
+
+
+    var reset = function(){
+        active.classed("active", false); 
+        active = d3.select(null);
+
+        g.transition()
+            .duration(750)
+            .style("stroke-width", "1.5px")
+            .attr("transform", "");
+
+        infoBox.transition()
+            .duration(450)
+            .style("opacity", "0");
+
+        infoRect.transition()
+            .duration(450)
+            .style("opacity", "0")
+
+        slideshowBox.transition()
+            .duration(450)
+            .style("opacity", "0")
+    }
+
+</script>
+<!--!DOCTYPE html>
 	<meta charset="utf-8">
 	<title> Map Testingg <title>
 <style>
