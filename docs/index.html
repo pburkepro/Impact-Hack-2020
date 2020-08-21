@@ -26,7 +26,7 @@
         "stylers": [{
           "saturation": -50
         }, {
-          "lightness": 30
+          "lightness": 50
         }]
       }]
     });
@@ -46,7 +46,7 @@
           layer.select('svg').remove();
 
           var w = 900;
-          var h = 600;
+          var h = 700;
 
           var color = ['#e41a1c', '#377eb8', '#4daf4a', '#984ea3', '#ff7f00', '#ffff33', '#a65628', '#f781bf', '#999999'];
           var heat_color = d3.scale.linear().domain([0, 1]).range(['#b2df8a', '#ff7f00']).interpolate(d3.interpolateHcl);
